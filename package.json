@@ -1,0 +1,15 @@
+{
+  "name": "tcs-notification-ts",
+  "version": "1.0.0",
+  "description": "task cabinet server's notification app",
+    "main": "index.js",
+    "scripts" : {
+        "build" : "tsc"
+    },
+  "author": "MokkeMeguru",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "typescript": "^3.7.3"
+  }
+}

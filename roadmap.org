@@ -1,0 +1,14 @@
+* commands
+  #+begin_src shell
+mkdir tcs-notification-ts
+yarn init
+yarn add  -D typescript
+npx tsc --init
+  #+end_src
+
+* write some codes, doesn'y you?
+  #+begin_src shell
+yarn build
+node src/index.js
+  #+end_src
+
