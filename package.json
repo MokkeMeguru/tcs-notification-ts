@@ -1,15 +1,29 @@
 {
-  "name": "tcs-notification-ts",
-  "version": "1.0.0",
-  "description": "task cabinet server's notification app",
+    "name": "tcs-notification-ts",
+    "version": "1.0.0",
+    "description": "task cabinet server's notification app",
     "main": "index.js",
-    "scripts" : {
-        "build" : "tsc"
+    "scripts": {
+        "lint": "eslint ./src/*.ts",
+        "dev": "nodemon --exec ts-node src/index.ts",
+        "start": "ts-node-dev --respawn src/index.ts",
+        "build": "tsc"
     },
-  "author": "MokkeMeguru",
-  "license": "MIT",
-  "private": false,
-  "devDependencies": {
-    "typescript": "^3.7.3"
-  }
+    "author": "MokkeMeguru",
+    "license": "MIT",
+    "private": false,
+    "devDependencies": {
+        "@types/node": "^12.12.14",
+        "@typescript-eslint/eslint-plugin": "^2.10.0",
+        "@typescript-eslint/parser": "^2.10.0",
+        "eslint": "^6.7.2",
+        "eslint-config-prettier": "^6.7.0",
+        "eslint-plugin-prettier": "^3.1.1",
+        "nodemon": "^2.0.1",
+        "prettier": "^1.19.1",
+        "ts-node": "^8.5.4",
+        "ts-node-dev": "^1.0.0-pre.44",
+        "typescript": "^3.7.3"
+    },
+    "dependencies": {}
 }

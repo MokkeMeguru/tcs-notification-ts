@@ -4,6 +4,9 @@ mkdir tcs-notification-ts
 yarn init
 yarn add  -D typescript
 npx tsc --init
+yarn add -D ts-node ts-node-dev nodemon @types/node
+yarn add -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+yarn add -D prettier eslint-config-prettier eslint-plugin-prettier
   #+end_src
 
 * write some codes, doesn'y you?
