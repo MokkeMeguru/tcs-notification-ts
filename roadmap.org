@@ -1,0 +1,38 @@
+* commands
+  #+begin_src shell
+mkdir tcs-notification-ts
+yarn init
+yarn add  -D typescript
+npx tsc --init
+yarn add -D ts-node ts-node-dev nodemon @types/node
+yarn add -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+yarn add -D prettier eslint-config-prettier eslint-plugin-prettier
+  #+end_src
+
+* write some codes, doesn'y you?
+  #+begin_src shell
+yarn build
+yarn start
+  #+end_src
+or
+#+begin_src shell
+  yarn dev
+  #+end_src
+
+* check your code by lint?
+#+begin_src shell
+yarn lint
+#+end_src
+
+* add webpush dependencies
+#+begin_src shell
+yarn add  web-push --save
+yarn add -D  @types/web-push
+#+end_src
+
+* add postgres dependencies
+#+begin_src shell
+yarn add pg --save
+yarn add -D @types/pg
+#+end_src
+
