@@ -9,13 +9,13 @@ export class PSQLClient {
         this.client = new Client (this.connect_info);
     };
     public connect_client: ConnectClient = async () => {
-        await this.client.connect ();
+        return this.client.connect ();
     }
     public eval_query: EvalQuery = async (query_args) => {
         const result = await this.client.query (query_args.query, query_args.params);
         return result.rows;
     }
     public disconnect:Disconnect = async () => {
-        await this.client.end ();
+        return this.client.end ();
     }
 }
