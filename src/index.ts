@@ -35,6 +35,7 @@ const cronSendNotifications: CronSendNotifications = (psqlclient) => {
                             }
                             webpush.send(subs, message).catch ((err) => console.log ('[ERROR]', err));
                         });
+                        psqlclient.disconnect ().catch ((err) => console.log ('[ERROR]', err));
                     }
                 ).catch ((err) => console.log ('[ERROR]', err));
         })
