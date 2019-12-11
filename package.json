@@ -2,22 +2,25 @@
     "name": "tcs-notification-ts",
     "version": "1.0.0",
     "description": "task cabinet server's notification app",
-    "main": "index.js",
+    "main": "dst/index.js",
     "scripts": {
         "lint": "eslint ./src/*.ts",
         "dev": "nodemon --exec ts-node src/index.ts",
         "start": "ts-node-dev --respawn src/index.ts",
-        "build": "tsc"
+        "build": "npx tsc",
+        "server": "node dst/index.js"
     },
     "author": "MokkeMeguru",
     "license": "MIT",
     "private": false,
     "devDependencies": {
-        "@types/node": "^12.12.14",
+        "@types/node": "^12.12.17",
+        "@types/node-cron": "^2.0.2",
         "@types/pg": "^7.11.2",
         "@types/web-push": "^3.3.0",
         "@typescript-eslint/eslint-plugin": "^2.10.0",
         "@typescript-eslint/parser": "^2.10.0",
+        "babel-eslint": "^10.0.3",
         "eslint": "^6.7.2",
         "eslint-config-prettier": "^6.7.0",
         "eslint-plugin-prettier": "^3.1.1",
@@ -25,9 +28,12 @@
         "prettier": "^1.19.1",
         "ts-node": "^8.5.4",
         "ts-node-dev": "^1.0.0-pre.44",
-        "typescript": "^3.7.3"
+        "types": "^0.1.1",
+        "typescript": "^3.7.3",
+        "typescript-language-server": "^0.4.0"
     },
     "dependencies": {
+        "node-cron": "^2.0.3",
         "pg": "^7.14.0",
         "web-push": "^3.4.2"
     }
