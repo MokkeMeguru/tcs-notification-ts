@@ -22,6 +22,27 @@ interface SendResponse {
     body: string;
 }
 
+// {
+//  "notification": {
+//    "actions": NotificationAction[],
+//    "badge": USVString
+//    "body": DOMString,
+//    "data": any,
+//    "dir": "auto"|"ltr"|"rtl",
+//    "icon": USVString,
+//    "image": USVString,
+//    "lang": DOMString,
+//    "renotify": boolean,
+//    "requireInteraction": boolean,
+//    "silent": boolean,
+//    "tag": DOMString,
+//    "timestamp": DOMTimeStamp,
+//    "title": DOMString,
+//    "vibrate": number[]
+//  }
+// }
+
+
 export interface Message {
     titile: string;
     message: string;
