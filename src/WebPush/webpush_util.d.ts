@@ -48,4 +48,4 @@ export interface Message {
     message: string;
     body: string;
 }
-export type Send = (subs: Subscription, message: Message) => Promise<SendResponse>;
+export type Send = (subs: Subscription, message: any) => Promise<SendResponse>;

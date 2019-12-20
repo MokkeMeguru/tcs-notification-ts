@@ -14,6 +14,11 @@ const  webpush = new WebPush (vapid_detail);
 const appname = 'task-cabinet';
 psqlclient.connect_client ();
 
+interface TestMessage {
+          notification : any
+          data: any,
+          actions: any
+};
 const cronSendNotifications: CronSendNotifications = async (psqlclient) => {
     console.log ('[info] scheduled notification');
     let res = await get_whole_device_with_user (psqlclient);
@@ -26,7 +31,7 @@ const cronSendNotifications: CronSendNotifications = async (psqlclient) => {
                 p256dh: r.p256dh
             }
         };
-        const message: any = {
+        let message = {
               notification: {
               titile: `Push Notification from ${appname}`,
               body: `Are you ${r.name} ?`,
@@ -36,7 +41,7 @@ const cronSendNotifications: CronSendNotifications = async (psqlclient) => {
               {message: `Hello! You have a task.`},
               actions: [{action:"explore", titile: "Go to the site"}]}
         }
-        webpush.send(subs, message).catch ((err) => console.log ('[ERROR]', err));
+        webpush.send(subs, JSON.stringify(message)).catch ((err) => console.log ('[ERROR]', err));
     })
 }
 
