@@ -24,7 +24,7 @@ const cronSendNotifications: CronSendNotifications = async (psqlclient) => {
     let res = await get_whole_device_with_user (psqlclient);
     res.forEach ((r) => {
         const subs: Subscription = {
-            endpoint: r.endpoint,
+            endpoint: r.endpoint,  
             keys: {
                 auth: r.auth,
                 p256dh: r.p256dh
@@ -32,7 +32,7 @@ const cronSendNotifications: CronSendNotifications = async (psqlclient) => {
         };
         let message = {
               notification: {
-              titile: `Push Notification from ${appname}`,
+              title: `Push Notification from ${appname}`,
               body: `Are you ${r.name} ?`,
               icon: "assets/main-page-logo-small-hat.png",
               vibrate: [100, 50, 100],
@@ -41,7 +41,7 @@ const cronSendNotifications: CronSendNotifications = async (psqlclient) => {
               actions: [{action:"explore", titile: "Go to the site"}]}
         }
         webpush.send(subs, JSON.stringify(message))
-        .then((_) => console.log(`correct push for ${r.name}-${r.endpoint}`))
+        .then((_) => console.log(`correct push for ${r.name}-${r.endpoint}-${message}`))
         .catch ((err) => console.log ('[ERROR]'));
     })
 }
