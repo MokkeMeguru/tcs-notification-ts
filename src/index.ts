@@ -38,7 +38,7 @@ const cronSendNotifications: CronSendNotifications = async (psqlclient) => {
               vibrate: [100, 50, 100],
               data:
               {message: `Hello! You have a task.`},
-              actions: [{action:"explore", titile: "Go to the site"}]}
+              actions: [{action:"explore", title: "Go to the site"}]}
         }
         webpush.send(subs, JSON.stringify(message))
         .then((_) => console.log(`correct push for ${r.name}-${r.endpoint}-${message}`))
