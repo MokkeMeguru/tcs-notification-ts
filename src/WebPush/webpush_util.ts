@@ -11,6 +11,7 @@ export class WebPush {
         );
     };
     public send: Send = async (subs, message) => {
-        return await this.webpush.sendNotification(subs, JSON.stringify(message));
+           console.log(message);
+        return await this.webpush.sendNotification(subs, message);
     }
 }
