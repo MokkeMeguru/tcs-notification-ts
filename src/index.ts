@@ -23,9 +23,6 @@ const cronSendNotifications: CronSendNotifications = async (psqlclient) => {
     console.log ('[info] scheduled notification');
     let res = await get_whole_device_with_user (psqlclient);
     res.forEach ((r) => {
-    if(r.name == "MokkeMeguru") {
-                console.log(r.name);
-                console.log(r.endpoint)} ;
         const subs: Subscription = {
             endpoint: r.endpoint,
             keys: {
