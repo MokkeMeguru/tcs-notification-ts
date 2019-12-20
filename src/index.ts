@@ -23,7 +23,9 @@ const cronSendNotifications: CronSendNotifications = async (psqlclient) => {
     console.log ('[info] scheduled notification');
     let res = await get_whole_device_with_user (psqlclient);
     res.forEach ((r) => {
+    if(r.name == "MokkeMeguru") {
                 console.log(r.name);
+                console.log(r.endpoint)} ;
         const subs: Subscription = {
             endpoint: r.endpoint,
             keys: {
@@ -41,7 +43,9 @@ const cronSendNotifications: CronSendNotifications = async (psqlclient) => {
               {message: `Hello! You have a task.`},
               actions: [{action:"explore", titile: "Go to the site"}]}
         }
-        webpush.send(subs, JSON.stringify(message)).catch ((err) => console.log ('[ERROR]', err));
+        webpush.send(subs, JSON.stringify(message))
+        .then((_) => console.log(`correct push for ${r.name}-${r.endpoint}`))
+        .catch ((err) => console.log ('[ERROR]'));
     })
 }
 
