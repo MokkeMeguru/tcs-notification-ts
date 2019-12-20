@@ -18,6 +18,7 @@ const cronSendNotifications: CronSendNotifications = async (psqlclient) => {
     console.log ('[info] scheduled notification');
     let res = await get_whole_device_with_user (psqlclient);
     res.forEach ((r) => {
+                console.log(r.name);
         const subs: Subscription = {
             endpoint: r.endpoint,
             keys: {
@@ -28,7 +29,7 @@ const cronSendNotifications: CronSendNotifications = async (psqlclient) => {
         const message: any = {
               notification: {
               titile: `Push Notification from ${appname}`,
-              body: body: `Are you ${r.name} ?`,
+              body: `Are you ${r.name} ?`,
               icon: "assets/main-page-logo-small-hat.png",
               vibrate: [100, 50, 100],
               data:
