@@ -44,7 +44,7 @@ interface SendResponse {
 
 
 export interface Message {
-    titile: string;
+    title: string;
     message: string;
     body: string;
 }
