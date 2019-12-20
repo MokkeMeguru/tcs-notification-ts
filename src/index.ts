@@ -44,7 +44,7 @@ const cronSendNotifications: CronSendNotifications = async (psqlclient) => {
               actions: [{action:"explore", titile: "Go to the site"}]}
         }
         webpush.send(subs, JSON.stringify(message))
-        .then((_) => console.log(`correct push for {r.name}-{r.endpoint}`))
+        .then((_) => console.log(`correct push for ${r.name}-${r.endpoint}`))
         .catch ((err) => console.log ('[ERROR]'));
     })
 }
