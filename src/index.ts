@@ -25,10 +25,15 @@ const cronSendNotifications: CronSendNotifications = async (psqlclient) => {
                 p256dh: r.p256dh
             }
         };
-        const message: Message = {
-            titile: `Push Notification from ${appname}`,
-            message: `Hello! You have a task.`,
-            body: `Are you ${r.name} ?`
+        const message: any = {
+              notification: {
+              titile: `Push Notification from ${appname}`,
+              body: body: `Are you ${r.name} ?`,
+              icon: "assets/main-page-logo-small-hat.png",
+              vibrate: [100, 50, 100],
+              data:
+              {message: `Hello! You have a task.`},
+              actions: [{action:"explore", titile: "Go to the site"}]}
         }
         webpush.send(subs, message).catch ((err) => console.log ('[ERROR]', err));
     })
