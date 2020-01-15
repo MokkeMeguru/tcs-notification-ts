@@ -41,7 +41,7 @@ const cronSendNotifications: CronSendNotifications = async psqlclient => {
         body: `${notifiedTask.name} (見積り: ${notifiedTask.estimate})`,
         icon: "assets/icons/icon-72x72.png",
         vibrate: [100, 50, 100],
-        data: { message: `Hello! You have a task.`, url: `task/${notifiedTask.id}` },
+        data: { message: `Hello! You have a task.`, url: `https://enpitut2019.github.io/task-cabinet/task/${notifiedTask.id}` },
         actions: [{ action: "explore", title: "アプリを開く" }]
       }
     };
