@@ -8,6 +8,7 @@ import { WebPush } from "./WebPush/webpush_util";
 import { VapidDetail, Subscription, Message } from "./WebPush/webpush_util.d";
 import { vapid_detail } from "./vapid_keys";
 import { getWholeDeviceWithUser } from "./Boundary/device";
+import { getAlgorithmHistory } from "./Boundary/algorithm";
 import { getTasksByUserID } from "./Boundary/task";
 
 const psqlclient = new PSQLClient(psql_client);
@@ -21,8 +22,8 @@ interface TestMessage {
 }
 
 export enum Algorithm {
-  DEADLINE_FIRST,
-  SMALL_ESTIMATE_FIRST
+  DEADLINE_FIRST = 1,
+  SMALL_ESTIMATE_FIRST = 2
 }
 
 function selectTaskWithAlgorithm(tasks: any[], algorithm: Algorithm): any {
@@ -41,16 +42,33 @@ function selectTaskWithAlgorithm(tasks: any[], algorithm: Algorithm): any {
   }
 }
 
-function selectAlgorithm() {
-  return Algorithm.DEADLINE_FIRST;
-  // return Algorithm.SMALL_ESTIMATE_FIRST;
-  /**
-   * TODO:
-   * hatanaka  1時間前
-   * ランダムさんなら、一定回数を越えるまで、というよりは
-   * (aの選択回数+10):(bの選択回数+10)
-   * くらいの比率で常にランダムに返せたらよさそうです
-   */
+/**
+ * (aの選択回数+10):(bの選択回数+10)
+ * の比率でアルゴリズムを返す
+ * @param history
+ */
+function selectAlgorithm(history: Array<any>) {
+  const DEFAULT = Algorithm.DEADLINE_FIRST;
+  const DEFAULT_ANCHOR = 10;  // 各カウントに足し合わせる
+
+  let deadlineCount = 0;
+  let smallEstimateCount = 0;
+
+  history.forEach(obj => {
+    if (obj.alg === Algorithm.DEADLINE_FIRST) {
+      deadlineCount = obj.value;
+    } else if (obj.alg === Algorithm.SMALL_ESTIMATE_FIRST) {
+      smallEstimateCount = obj.value;
+    }
+  });
+  const deadlineWeight = deadlineCount + DEFAULT_ANCHOR;
+  const smallEstimateWeight = smallEstimateCount + DEFAULT_ANCHOR;
+
+  const rand = Math.floor(Math.random() * (deadlineWeight + smallEstimateWeight));
+
+  if (rand < deadlineWeight) return Algorithm.DEADLINE_FIRST;
+  if (rand < deadlineWeight + smallEstimateWeight) return Algorithm.SMALL_ESTIMATE_FIRST;
+  return DEFAULT;
 }
 
 const cronSendNotifications: CronSendNotifications = async psqlclient => {
@@ -62,7 +80,8 @@ const cronSendNotifications: CronSendNotifications = async psqlclient => {
     if (tasks.length === 0) {
       return;
     }
-    const algorithm = selectAlgorithm();
+    const his = await getAlgorithmHistory(psqlclient, userID);
+    const algorithm = selectAlgorithm(his);
     const notifiedTask = selectTaskWithAlgorithm(tasks, algorithm);
 
     console.log("[info] algorithm, notifiedTask");
@@ -85,7 +104,7 @@ const cronSendNotifications: CronSendNotifications = async psqlclient => {
         vibrate: [100, 50, 100],
         data: {
           message: `Hello! You have a task.`,
-          url: `https://enpitut2019.github.io/task-cabinet/task/${notifiedTask.id}`
+          url: `https://enpitut2019.github.io/task-cabinet/task/${notifiedTask.id}?pushType=${algorithm}`
         },
         actions: [{ action: "explore", title: "アプリを開く" }]
       }
