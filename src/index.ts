@@ -22,8 +22,8 @@ interface TestMessage {
 }
 
 export enum Algorithm {
-  DEADLINE_FIRST,
-  SMALL_ESTIMATE_FIRST
+  DEADLINE_FIRST = 1,
+  SMALL_ESTIMATE_FIRST = 2
 }
 
 function selectTaskWithAlgorithm(tasks: any[], algorithm: Algorithm): any {
@@ -67,7 +67,7 @@ function selectAlgorithm(history: Array<any>) {
   const rand = Math.floor(Math.random() * (deadlineWeight + smallEstimateWeight));
 
   if (rand < deadlineWeight) return Algorithm.DEADLINE_FIRST;
-  if (rand < smallEstimateWeight) return Algorithm.SMALL_ESTIMATE_FIRST;
+  if (rand < deadlineWeight + smallEstimateWeight) return Algorithm.SMALL_ESTIMATE_FIRST;
   return DEFAULT;
 }
 
