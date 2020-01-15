@@ -19,13 +19,55 @@ interface TestMessage {
   data: any;
   actions: any;
 }
+
+export enum Algorithm {
+  DEADLINE_FIRST,
+  SMALL_ESTIMATE_FIRST
+}
+
+function selectTaskWithAlgorithm(tasks: any[], algorithm: Algorithm): any {
+  if (algorithm === Algorithm.DEADLINE_FIRST) {
+    tasks.sort((a, b) => (a.deadline < b.deadline ? -1 : 1));
+    console.log("[info] tasks");
+    console.log(tasks);
+    return tasks[0];
+  } else if (algorithm === Algorithm.SMALL_ESTIMATE_FIRST) {
+    tasks.sort((a, b) => (a.estimate > b.estimate ? -1 : 1));
+    console.log("[info] tasks");
+    console.log(tasks);
+    return tasks[0];
+  } else {
+    throw new Error(`[error] unsupported algorithm`);
+  }
+}
+
+function selectAlgorithm() {
+  return Algorithm.DEADLINE_FIRST;
+  // return Algorithm.SMALL_ESTIMATE_FIRST;
+  /**
+   * TODO:
+   * hatanaka  1時間前
+   * ランダムさんなら、一定回数を越えるまで、というよりは
+   * (aの選択回数+10):(bの選択回数+10)
+   * くらいの比率で常にランダムに返せたらよさそうです
+   */
+}
+
 const cronSendNotifications: CronSendNotifications = async psqlclient => {
   let deviceWithUsers = await getWholeDeviceWithUser(psqlclient);
   for (const deviceWithUser of deviceWithUsers) {
     // Get tasks by the given user
     const userID = deviceWithUser.user_id;
     const tasks = await getTasksByUserID(psqlclient, userID);
-    const notifiedTask = tasks[0]; // TODO: アルゴリズムによる選択
+    if (tasks.length === 0) {
+      return;
+    }
+    const algorithm = selectAlgorithm();
+    const notifiedTask = selectTaskWithAlgorithm(tasks, algorithm);
+
+    console.log("[info] algorithm, notifiedTask");
+    console.log(algorithm);
+    console.log(notifiedTask);
 
     // Create notification
     const subs: Subscription = {
@@ -41,7 +83,10 @@ const cronSendNotifications: CronSendNotifications = async psqlclient => {
         body: `${notifiedTask.name} (見積り: ${notifiedTask.estimate})`,
         icon: "assets/icons/icon-72x72.png",
         vibrate: [100, 50, 100],
-        data: { message: `Hello! You have a task.`, url: `https://enpitut2019.github.io/task-cabinet/task/${notifiedTask.id}` },
+        data: {
+          message: `Hello! You have a task.`,
+          url: `https://enpitut2019.github.io/task-cabinet/task/${notifiedTask.id}`
+        },
         actions: [{ action: "explore", title: "アプリを開く" }]
       }
     };
