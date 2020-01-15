@@ -8,7 +8,7 @@ export const getTasksByUserID: GetTasksByUserID = async (
 ) => {
   const queryargs: QueryArgs = {
     query:
-      "SELECT name, deadline, estimate, id from task where user_id = $1::int and is_deleted != true;",
+      "SELECT name, deadline, estimate, id from task where user_id = $1::int and is_deleted != true and finished_at IS NULL;",
     params: [userID]
   };
   let res = client.eval_query(queryargs);
